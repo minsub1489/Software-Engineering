@@ -57,6 +57,8 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory prototype/dist
 - 자기 승인, 과제 미통과, 치명 오류, 미완료 체크리스트는 승인을 차단합니다.
 - 역할은 시연을 위한 전환 기능입니다. 실제 계정 인증·서버 권한 검사·DB·전자서명은 연결하지 않았습니다.
 - 시연 기록은 현재 브라우저에 저장됩니다. 다른 기기의 QR 화면에는 발급 당시 요약만 표시하며 현재 효력을 확인했다고 표시하지 않습니다.
+- PDF·작업·승인·감사 기록은 IndexedDB에 저장됩니다. 저장 실패는 롤백하며, 여러 탭의 변경 충돌은 revision 검사로 차단합니다.
+- 수정 요청은 이전 검토 회차를 보존하고 현재 평가·체크리스트를 초기화합니다. 승인된 답변과 기여 근거는 영수증의 검토 범위 해시에 고정됩니다.
 - 승인 기록은 검토 절차의 근거입니다. 실제 이해, 문서의 사실 정확성, AI 사용 신고의 진실성을 보증하지 않습니다.
 
 ## 파일 구성
@@ -73,10 +75,29 @@ prototype/
     ├── index.html            # 페이지 문서
     ├── styles.css            # 반응형 레이아웃
     ├── app.js                # 화면과 시연 상태 처리
+    ├── domain.js             # 승인 규칙·불변식·입력·해시 검증
+    ├── repository.js         # IndexedDB 원자적 저장·동시 변경 검사
     ├── qrcode.min.js         # QR 생성 라이브러리
     └── QRCODE-LICENSE.txt     # 라이브러리 라이선스
 ```
 
-문항, 샘플 답변과 화면 동작은 `prototype/dist/app.js`, 디자인은 `prototype/dist/styles.css`에서 수정할 수 있습니다. 단독 HTML은 위 소스와 라이브러리를 합친 실행용 파일입니다.
+문항, 샘플 답변과 화면 동작은 `prototype/dist/app.js`, 디자인은 `prototype/dist/styles.css`에서 수정할 수 있습니다. 단독 HTML은 아래 명령으로 재생성합니다. Node.js가 필요하며 빌드·도메인 테스트에는 추가 패키지가 필요하지 않습니다.
+
+```sh
+npm run build
+npm run check
+npm test
+```
+
+npm이 없는 Node 환경에서는 `node scripts/build-standalone.cjs`, `node --check prototype/dist/app.js`, `node --test tests/*.test.cjs`를 직접 실행할 수 있습니다.
+
+## 크롬 확장과 아키텍처
+
+`extension/`에 Manifest V3 기여 기록 확장을 추가했습니다. Chrome 개발자 모드에서 폴더를 로드하고 사용자 확인을 거쳐 페이지 근거를 로컬 저장·JSON 내보내기할 수 있습니다. 프로토타입의 **버전 · 이력 → 확장 기여 기록 가져오기**에서 미리보기 후 연결합니다. 기록 추가는 기존 평가를 초기화하고, 승인 후에는 새 버전 등록을 요구합니다.
+
+- [설치와 수동 점검](extension/README.md)
+- [현재 구조 평가와 운영 MVP 설계](docs/architecture.md)
+
+실제 Chrome 통합 검증은 Playwright가 있는 환경에서 `npm run test:browser`로 실행합니다. 설치된 Chrome을 쓸 때는 `CHROME_EXECUTABLE`에 실행 파일 경로를 설정할 수 있습니다. 확장 팝업 테스트는 Chrome API를 모의 구현하므로 실제 툴바 호출과 권한 활성화는 설치 후 수동 점검이 필요합니다.
 
 QR 생성에는 [QRCode.js](https://github.com/davidshimjs/qrcodejs)를 사용하며 해당 라이브러리의 MIT 라이선스를 포함했습니다.
