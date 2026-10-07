@@ -2,9 +2,24 @@
 
 AI 작업의 인간 검토·승인 기록을 특정 PDF 버전에 연결하는 소프트웨어공학 팀 프로젝트의 발표용 프로토타입입니다.
 
-![HumanProof 작업 화면](prototype/preview.jpg)
+## 크롬 확장 프로그램 형태의 프로토타입
 
-## 실행하기
+발표용 클릭 프로토타입입니다. 크롬 브라우저 모형에서 보라색 방패 아이콘을 누르면 HumanProof 팝업이 열립니다. HTML 한 개로 동작하며 확장 프로그램 설치가 필요하지 않습니다.
+
+![HumanProof 크롬 확장 팝업](prototype/chrome-preview.jpg)
+
+1. 저장소를 내려받고 `prototype/HumanProof_크롬확장_프로토타입.html`을 브라우저로 엽니다.
+2. 팝업에서 샘플 PDF 연결 → 작업 등록 → 세 질문에 샘플 답변 제출을 진행합니다.
+3. 검토자 B로 전환하고 체크리스트를 확인한 뒤 승인합니다.
+4. 증명서에서 원본과 수정 파일의 비교 예시를 보여줍니다.
+
+화면 아래 `01 등록`~`04 증명서`로 발표 장면을 바로 이동할 수 있습니다. 짧은 화면에서는 팝업 안을 스크롤합니다. 파일, 승인 기록과 검증 결과는 샘플이며 실제 파일 처리나 서버 연동은 하지 않습니다.
+
+자세한 순서는 [크롬 확장 프로토타입 시연 가이드](prototype/크롬확장_시연가이드.md)를 참고하세요.
+
+## 기존 웹 프로토타입 실행하기
+
+![HumanProof 웹 작업 화면](prototype/preview.jpg)
 
 ### 설치 없이 실행
 
@@ -24,7 +39,7 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory prototype/dist
 
 브라우저에서 **http://127.0.0.1:4173/** 을 엽니다. 종료는 터미널에서 `Ctrl+C`입니다.
 
-## 시연 흐름
+## 기존 웹 프로토타입 시연 흐름
 
 1. **PDF 등록과 AI 사용 신고**: 파일 버전 ID와 실제 SHA-256 해시를 확인합니다.
 2. **이해 과제**: Teach-back, Fault Injection, What-if 답변과 자기 확신도를 제출합니다.
@@ -36,7 +51,7 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory prototype/dist
 
 자세한 순서와 발표 멘트는 [5분 시연 가이드](prototype/시연가이드.md)를 참고하세요.
 
-## 프로토타입 범위
+## 기존 웹 프로토타입 범위
 
 - PDF 파일 형식·20 MB 크기 검사와 SHA-256 비교는 실제로 동작합니다.
 - 자기 승인, 과제 미통과, 치명 오류, 미완료 체크리스트는 승인을 차단합니다.
@@ -48,6 +63,9 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory prototype/dist
 
 ```text
 prototype/
+├── HumanProof_크롬확장_프로토타입.html  # 크롬 모형과 확장 팝업을 시연하는 단독 HTML
+├── 크롬확장_시연가이드.md             # 확장 팝업 시연 안내
+├── chrome-preview.jpg               # 크롬 확장 팝업 미리보기
 ├── HumanProof_프로토타입.html  # 설치 없이 실행하는 단독 HTML
 ├── 시연가이드.md             # 발표 순서와 시연 안내
 ├── preview.jpg               # 화면 미리보기
