@@ -1,17 +1,3 @@
-<!-- MINSUB-BRAND:START -->
-<p align="center">
-  <a href="https://minsub-kim-portfolio.vercel.app/projects/humanproof/"><img src=".github/assets/banner.svg" width="1200" alt="HumanProof · Make review visible. Keep versions clear."></a>
-</p>
-<p align="center">
-  <a href="https://minsub-kim-portfolio.vercel.app/"><img src=".github/assets/portfolio.svg" width="240" alt="Minsub Kim 포트폴리오 보기"></a>
-</p>
-<p align="center">
-  <a href="https://minsub-kim-portfolio.vercel.app/projects/humanproof/">프로젝트 스토리</a> · <a href="https://github.com/minsub1489">개발자 프로필</a> · <a href="https://minsub-kim-portfolio.vercel.app/">포트폴리오</a>
-</p>
-<!-- MINSUB-BRAND:END -->
-
----
-
 # Software Engineering · HumanProof
 
 AI 작업의 인간 검토·승인 기록을 특정 PDF 버전에 연결하는 소프트웨어공학 팀 프로젝트의 발표용 프로토타입입니다.
